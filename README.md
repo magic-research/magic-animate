@@ -21,12 +21,8 @@
     <a href="https://sites.google.com/view/showlab"><strong>Mike Zheng Shou</strong></a>
     <br>
     <br>
-        <a href="https://github.com/magic-research/magic-animate/blob/main/assets/preprint/MagicAnimate.pdf">
-        <img src='https://img.shields.io/badge/preprint-MagicAnimate-red' alt='Paper PDF'>
-        </a>
-        <a href='https://showlab.github.io/magicanimate'>
-        <img src='https://img.shields.io/badge/Project_Page-MagicAnimate-green' alt='Project Page'>
-        </a>
+        <a href="https://github.com/magic-research/magic-animate/blob/main/assets/preprint/MagicAnimate.pdf"><img src='https://img.shields.io/badge/preprint-MagicAnimate-red' alt='Paper PDF'></a>
+        <a href='https://showlab.github.io/magicanimate'><img src='https://img.shields.io/badge/Project_Page-MagicAnimate-green' alt='Project Page'></a>
   </p>
   
   <table align="center">
