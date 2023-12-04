@@ -1,0 +1,42 @@
+pretrained_model_path: "pretrained_models/stable-diffusion-v1-5"
+pretrained_vae_path: "pretrained_models/sd-vae-ft-mse"
+pretrained_controlnet_path: "pretrained_models/MagicAnimate/densepose_controlnet"
+pretrained_appearance_encoder_path: "pretrained_models/MagicAnimate/appearance_encoder"
+pretrained_unet_path: ""
+
+motion_module: "pretrained_models/MagicAnimate/temporal_attention/temporal_attention.ckpt"
+
+savename: null
+
+fusion_blocks: "midup"
+
+seed:           [1]
+steps:          25
+guidance_scale: 7.5
+
+source_image:
+  - "inputs/applications/source_image/monalisa.png"
+  - "inputs/applications/source_image/0002.png"
+  - "inputs/applications/source_image/demo4.png"
+  - "inputs/applications/source_image/dalle2.jpeg"
+  - "inputs/applications/source_image/dalle8.jpeg"
+  - "inputs/applications/source_image/multi1_source.png"
+video_path:
+  - "inputs/applications/driving/densepose/running.mp4"
+  - "inputs/applications/driving/densepose/demo4.mp4"
+  - "inputs/applications/driving/densepose/demo4.mp4"
+  - "inputs/applications/driving/densepose/running2.mp4"
+  - "inputs/applications/driving/densepose/dancing2.mp4"
+  - "inputs/applications/driving/densepose/multi_dancing.mp4"
+
+inference_config: "configs/inference/inference.yaml"
+size: 512
+L:    16
+S:    1 
+I:    0
+clip: 0
+offset: 0
+max_length: null
+video_type: "condition"
+invert_video: false
+save_individual_videos: false

@@ -23,6 +23,9 @@
     <br>
         <a href="https://arxiv.org/abs/2311.16498"><img src='https://img.shields.io/badge/arXiv-MagicAnimate-red' alt='Paper PDF'></a>
         <a href='https://showlab.github.io/magicanimate'><img src='https://img.shields.io/badge/Project_Page-MagicAnimate-green' alt='Project Page'></a>
+        <a href='https://showlab.github.io/magicanimate'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue'></a>
+    <br>
+    <b>National University of Singapore &nbsp; | &nbsp;  ByteDance</b>
   </p>
   
   <table align="center">
@@ -44,11 +47,77 @@
     </tr>
   </table>
 
-*Introducing MagicAnimate, a diffusion-based human image animation framework that aims at enhancing temporal consistency, preserving reference image faithfully, and improving animation fidelity.*
+## 📢 News
+* **[2023.12.4]** Release inference code and gradio demo. We are working to improve MagicAnimate, stay tuned!
+* **[2023.11.23]** Release MagicAnimate paper and project page.
 
- 
-## Citing
-If you find our work useful, please consider citing:
+## 🏃‍♂️ Getting Started
+Please download the pretrained base models for [StableDiffusion V1.5](runwayml/stable-diffusion-v1-5) and [MSE-finetuned VAE](stabilityai/sd-vae-ft-mse).
+
+Download our MagicAnimate [checkpints](https://huggingface.co/zcxu-eric/MagicAnimate).
+
+**Place them as following:**
+```bash
+magic-animate
+|----pretrained_models
+  |----MagicAnimate
+    |----appearance_encoder
+      |----diffusion_pytorch_model.safetensors
+      |----config.json
+    |----densepose_controlnet
+      |----diffusion_pytorch_model.safetensors
+      |----config.json
+    |----temporal_attention
+      |----temporal_attention.ckpt
+  |----sd-vae-ft-mse
+    |----...
+  |----stable-diffusion-v1-5
+    |----...
+|----...
+```
+
+## ⚒️ Installation
+prerequisites: `python>=3.8`, `CUDA>=11.3`, and `ffmpeg`.
+
+Install with `conda`: 
+```bash
+conda env create -f environment.yml
+conda activate manimate
+```
+or `pip`:
+```bash
+pip3 install -r requirements.txt
+```
+
+## 💃 Inference
+Run inference on single GPU:
+```bash
+bash scripts/animate.sh
+```
+Run inference with multiple GPUs:
+```bash
+bash scripts/animate_dist.sh
+```
+
+## 🎨 Gradio Demo 
+
+#### Online Gradio Demo:
+Coming soon...
+<!-- Try our [online gradio demo]() quickly. -->
+
+#### Local Gradio Demo:
+Launch local gradio demo on single GPU:
+```bash
+python3 -m demo.gradio_animate
+```
+Launch local gradio demo if you have multiple GPUs:
+```bash
+python3 -m demo.gradio_animate_dist
+```
+Then open gradio demo in local browser.
+
+## 🎓 Citation
+If you find this codebase useful for your research, please use the following entry.
 ```BibTeX
 @inproceedings{xu2023magicanimate,
     author    = {Xu, Zhongcong and Zhang, Jianfeng and Liew, Jun Hao and Yan, Hanshu and Liu, Jia-Wei and Zhang, Chenxu and Feng, Jiashi and Shou, Mike Zheng},
