@@ -54,9 +54,9 @@
 ## 🏃‍♂️ Getting Started
 Please download the pretrained base models for [StableDiffusion V1.5](runwayml/stable-diffusion-v1-5) and [MSE-finetuned VAE](stabilityai/sd-vae-ft-mse).
 
-Download our MagicAnimate [checkpints](https://huggingface.co/zcxu-eric/MagicAnimate).
+Download our MagicAnimate [checkpoints](https://huggingface.co/zcxu-eric/MagicAnimate).
 
-**Place them as following:**
+**Place them as follows:**
 ```bash
 magic-animate
 |----pretrained_models
