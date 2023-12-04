@@ -23,7 +23,7 @@
     <br>
         <a href="https://arxiv.org/abs/2311.16498"><img src='https://img.shields.io/badge/arXiv-MagicAnimate-red' alt='Paper PDF'></a>
         <a href='https://showlab.github.io/magicanimate'><img src='https://img.shields.io/badge/Project_Page-MagicAnimate-green' alt='Project Page'></a>
-        <a href=''><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue'></a>
+        <a href='https://huggingface.co/spaces/zcxu-eric/magicanimate'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue'></a>
     <br>
     <b>National University of Singapore &nbsp; | &nbsp;  ByteDance</b>
   </p>
@@ -52,7 +52,7 @@
 * **[2023.11.23]** Release MagicAnimate paper and project page.
 
 ## 🏃‍♂️ Getting Started
-Please download the pretrained base models for [StableDiffusion V1.5](runwayml/stable-diffusion-v1-5) and [MSE-finetuned VAE](stabilityai/sd-vae-ft-mse).
+Please download the pretrained base models for [StableDiffusion V1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main) and [MSE-finetuned VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse/tree/main).
 
 Download our MagicAnimate [checkpoints](https://huggingface.co/zcxu-eric/MagicAnimate).
 
