@@ -81,7 +81,7 @@ prerequisites: `python>=3.8`, `CUDA>=11.3`, and `ffmpeg`.
 
 Install with `conda`: 
 ```bash
-conda env create -f environment.yml
+conda env create -f environment.yaml
 conda activate manimate
 ```
 or `pip`:
