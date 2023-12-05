@@ -18,8 +18,8 @@ from demo.animate import MagicAnimate
 
 animator = MagicAnimate()
 
-def animate(reference_image, motion_sequence_state, seed, steps, guidance_scale):
-    return animator(reference_image, motion_sequence_state, seed, steps, guidance_scale)
+def animate(reference_image, motion_sequence_state, seed, steps, guidance_scale, debug):
+    return animator(reference_image, motion_sequence_state, seed, steps, guidance_scale, debug)
 
 with gr.Blocks() as demo:
 
@@ -49,6 +49,7 @@ with gr.Blocks() as demo:
             random_seed         = gr.Textbox(label="Random seed", value=1, info="default: -1")
             sampling_steps      = gr.Textbox(label="Sampling steps", value=25, info="default: 25")
             guidance_scale      = gr.Textbox(label="Guidance scale", value=7.5, info="default: 7.5")
+            debug               = gr.Checkbox(label="Debug", value=True)
             submit              = gr.Button("Animate")
 
     def read_video(video):
@@ -74,7 +75,7 @@ with gr.Blocks() as demo:
     # when the `submit` button is clicked
     submit.click(
         animate,
-        [reference_image, motion_sequence, random_seed, sampling_steps, guidance_scale], 
+        [reference_image, motion_sequence, random_seed, sampling_steps, guidance_scale, debug], 
         animation
     )
 
