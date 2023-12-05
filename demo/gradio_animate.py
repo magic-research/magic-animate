@@ -52,7 +52,6 @@ with gr.Blocks() as demo:
             submit              = gr.Button("Animate")
 
     def read_video(video):
-        size = int(size)
         reader = imageio.get_reader(video)
         fps = reader.get_meta_data()['fps']
         assert fps == 25.0, f'Expected video fps: 25, but {fps} fps found'
