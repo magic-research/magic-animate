@@ -23,7 +23,7 @@
     <br>
         <a href="https://arxiv.org/abs/2311.16498"><img src='https://img.shields.io/badge/arXiv-MagicAnimate-red' alt='Paper PDF'></a>
         <a href='https://showlab.github.io/magicanimate'><img src='https://img.shields.io/badge/Project_Page-MagicAnimate-green' alt='Project Page'></a>
-        <a href=''><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue'></a>
+        <a href='https://huggingface.co/spaces/zcxu-eric/magicanimate'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue'></a>
     <br>
     <b>National University of Singapore &nbsp; | &nbsp;  ByteDance</b>
   </p>
@@ -52,7 +52,7 @@
 * **[2023.11.23]** Release MagicAnimate paper and project page.
 
 ## 🏃‍♂️ Getting Started
-Please download the pretrained base models for [StableDiffusion V1.5](runwayml/stable-diffusion-v1-5) and [MSE-finetuned VAE](stabilityai/sd-vae-ft-mse).
+Please download the pretrained base models for [StableDiffusion V1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5) and [MSE-finetuned VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse).
 
 Download our MagicAnimate [checkpoints](https://huggingface.co/zcxu-eric/MagicAnimate).
 
@@ -81,7 +81,7 @@ prerequisites: `python>=3.8`, `CUDA>=11.3`, and `ffmpeg`.
 
 Install with `conda`: 
 ```bash
-conda env create -f environment.yml
+conda env create -f environment.yaml
 conda activate manimate
 ```
 or `pip`:
@@ -102,8 +102,7 @@ bash scripts/animate_dist.sh
 ## 🎨 Gradio Demo 
 
 #### Online Gradio Demo:
-Coming soon...
-<!-- Try our [online gradio demo]() quickly. -->
+Try our [online gradio demo](https://huggingface.co/spaces/zcxu-eric/magicanimate) quickly.
 
 #### Local Gradio Demo:
 Launch local gradio demo on single GPU:
@@ -115,6 +114,9 @@ Launch local gradio demo if you have multiple GPUs:
 python3 -m demo.gradio_animate_dist
 ```
 Then open gradio demo in local browser.
+
+## 🙏 Acknowledgements
+We would like to thank [AK(@_akhaliq)](https://twitter.com/_akhaliq?lang=en) and huggingface team for the help of setting up oneline graio demo.
 
 ## 🎓 Citation
 If you find this codebase useful for your research, please use the following entry.
