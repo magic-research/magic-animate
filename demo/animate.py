@@ -125,7 +125,7 @@ class MagicAnimate():
         
         print("Initialization Done!")
         
-    def __call__(self, source_image, motion_sequence, random_seed, step, guidance_scale, size=512):
+    def __call__(self, source_image, motion_sequence, random_seed, step, guidance_scale, debug, size=512):
             prompt = n_prompt = ""
             random_seed = int(random_seed)
             step = int(step)
@@ -171,17 +171,17 @@ class MagicAnimate():
                 source_image             = source_image,
             ).videos
 
-            source_images = np.array([source_image] * original_length)
-            source_images = rearrange(torch.from_numpy(source_images), "t h w c -> 1 c t h w") / 255.0
-            samples_per_video.append(source_images)
-            
-            control = control / 255.0
-            control = rearrange(control, "t h w c -> 1 c t h w")
-            control = torch.from_numpy(control)
-            samples_per_video.append(control[:, :, :original_length])
+            if debug:
+              source_images = np.array([source_image] * original_length)
+              source_images = rearrange(torch.from_numpy(source_images), "t h w c -> 1 c t h w") / 255.0
+              samples_per_video.append(source_images)
+              
+              control = control / 255.0
+              control = rearrange(control, "t h w c -> 1 c t h w")
+              control = torch.from_numpy(control)
+              samples_per_video.append(control[:, :, :original_length])
 
             samples_per_video.append(sample[:, :, :original_length])
-
             samples_per_video = torch.cat(samples_per_video)
 
             time_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
