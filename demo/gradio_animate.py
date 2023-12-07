@@ -82,9 +82,8 @@ with gr.Blocks() as demo:
     gr.Markdown("## Examples")
     gr.Examples(
         examples=[
-            ["inputs/applications/source_image/monalisa.png", "inputs/applications/driving/densepose/running.mp4"],
-            ["inputs/applications/source_image/demo4.png", "inputs/applications/driving/densepose/demo4.mp4"],
-            ["inputs/applications/source_image/0002.png", "inputs/applications/driving/densepose/demo4.mp4"],
+            ["inputs/applications/source_image/monalisa.png", "inputs/applications/driving/densepose/running.mp4"], 
+            ["inputs/applications/source_image/126313770_0_final.png", "inputs/applications/driving/densepose/demo4.mp4"],
             ["inputs/applications/source_image/dalle2.jpeg", "inputs/applications/driving/densepose/running2.mp4"],
             ["inputs/applications/source_image/dalle8.jpeg", "inputs/applications/driving/densepose/dancing2.mp4"],
             ["inputs/applications/source_image/multi1_source.png", "inputs/applications/driving/densepose/multi_dancing.mp4"],
