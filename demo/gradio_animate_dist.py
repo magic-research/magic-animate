@@ -15,6 +15,7 @@ import numpy as np
 import gradio as gr
 from PIL import Image
 from subprocess import PIPE, run
+from PIL import Image
 
 os.makedirs("./demo/tmp", exist_ok=True)
 savedir = f"demo/outputs"

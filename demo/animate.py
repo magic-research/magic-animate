@@ -8,6 +8,7 @@
 # disclosure or distribution of this material and related documentation
 # without an express license agreement from ByteDance or
 # its affiliates is strictly prohibited.
+#importing required packages
 import argparse
 import argparse
 import datetime
@@ -18,6 +19,7 @@ from PIL import Image
 from omegaconf import OmegaConf
 from collections import OrderedDict
 
+import torch
 import torch
 
 from diffusers import AutoencoderKL, DDIMScheduler, UniPCMultistepScheduler
