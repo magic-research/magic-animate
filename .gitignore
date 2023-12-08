@@ -4,6 +4,7 @@ samples
 xformers
 src
 third_party
+backup
 pretrained_models
 *.nfs*
 ./*.png

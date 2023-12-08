@@ -31,15 +31,7 @@
   <table align="center">
     <tr>
     <td>
-      <img src="assets/teaser/t1.gif">
-    </td>
-    <td>
       <img src="assets/teaser/t4.gif">
-    </td>
-    </tr>
-    <tr>
-    <td>
-      <img src="assets/teaser/t3.gif">
     </td>
     <td>
       <img src="assets/teaser/t2.gif">
