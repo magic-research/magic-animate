@@ -92,5 +92,5 @@ with gr.Blocks() as demo:
         outputs=animation,
     )
 
-
-demo.launch(share=True)
+# Avoid timeout in gradio app
+demo.queue().launch(share=True)
