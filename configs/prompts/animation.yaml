@@ -16,14 +16,12 @@ guidance_scale: 7.5
 
 source_image:
   - "inputs/applications/source_image/monalisa.png"
-  - "inputs/applications/source_image/0002.png"
   - "inputs/applications/source_image/demo4.png"
   - "inputs/applications/source_image/dalle2.jpeg"
   - "inputs/applications/source_image/dalle8.jpeg"
   - "inputs/applications/source_image/multi1_source.png"
 video_path:
   - "inputs/applications/driving/densepose/running.mp4"
-  - "inputs/applications/driving/densepose/demo4.mp4"
   - "inputs/applications/driving/densepose/demo4.mp4"
   - "inputs/applications/driving/densepose/running2.mp4"
   - "inputs/applications/driving/densepose/dancing2.mp4"
