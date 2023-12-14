@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  manimate:
+    build: .
+    network_mode: "host"
+    volumes:
+      - ./:/home/models
+    ports:
+      - "7869:7860"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
