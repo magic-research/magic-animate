@@ -17,3 +17,6 @@ pretrained_unet_path = ""
 config_path = os.path.join(script_path, "configs", "prompts", "animation.yaml")
 inference_config_path = os.path.join(script_path, "configs", "inference", "inference.yaml")
 
+source_images_path = os.path.join(script_path, "inputs", "applications", "source_image")
+motion_sequences_path = os.path.join(script_path, "inputs", "applications", "driving", "densepose")
+
