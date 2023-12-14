@@ -10,5 +10,6 @@ pretrained_models
 ./*.png
 ./*.mp4
 demo/tmp
-demo/outputs
+demo/outputs/*
 .idea/*
+outputs/*
