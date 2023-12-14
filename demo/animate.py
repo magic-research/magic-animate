@@ -18,12 +18,13 @@ import torch
 from PIL import Image
 from accelerate.utils import set_seed
 from diffusers import AutoencoderKL, DDIMScheduler, StableDiffusionPipeline
+from diffusers.models.attention_processor import AttnProcessor2_0
 from einops import rearrange
 from omegaconf import OmegaConf
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from demo.paths import config_path, inference_config_path, pretrained_encoder_path, pretrained_controlnet_path, \
-    motion_module
+    motion_module, pretrained_model_path, pretrained_vae_path, output_path
 from magicanimate.models.appearance_encoder import AppearanceEncoderModel
 from magicanimate.models.controlnet import ControlNetModel
 from magicanimate.models.mutual_self_attention import ReferenceAttentionControl
@@ -31,6 +32,15 @@ from magicanimate.models.unet_controlnet import UNet3DConditionModel
 from magicanimate.pipelines.pipeline_animation import AnimationPipeline
 from magicanimate.utils.util import save_videos_grid
 from magicanimate.utils.videoreader import VideoReader
+
+
+def xformerify(obj):
+    try:
+        import xformers
+        obj.enable_xformers_memory_efficient_attention
+
+    except ImportError:
+        obj.set_attn_processor(AttnProcessor2_0())
 
 
 class MagicAnimate:
@@ -47,16 +57,8 @@ class MagicAnimate:
         self.inference_config = inference_config
 
         ### Load controlnet and appearance encoder
-        self.appearance_encoder = AppearanceEncoderModel.from_pretrained(pretrained_encoder_path,
-                                                                         subfolder="appearance_encoder").cuda()
-
-        self.controlnet = ControlNetModel.from_pretrained(pretrained_controlnet_path)
-        self.controlnet.to(torch.float16)
-        self.appearance_encoder.to(torch.float16)
-        self.appearance_encoder.enable_xformers_memory_efficient_attention()
-        self.controlnet.enable_xformers_memory_efficient_attention()
-
-
+        self.controlnet = None
+        self.appearance_encoder = None
         self.pipeline = None
         self.reference_control_writer = None
         self.reference_control_reader = None
@@ -64,8 +66,8 @@ class MagicAnimate:
 
         print("Initialization Done!")
 
-    def __call__(self, source_image, motion_sequence, random_seed, step, guidance_scale, size=512, checkpoint=None):
-        self.load_pipeline(checkpoint)
+    def __call__(self, source_image, motion_sequence, random_seed, step, guidance_scale, size=512, half_precision=False, checkpoint=None):
+        self.load_pipeline(half_precision, checkpoint)
         prompt = n_prompt = ""
         random_seed = int(random_seed)
         step = int(step)
@@ -130,32 +132,50 @@ class MagicAnimate:
         samples_per_video = torch.cat(samples_per_video)
 
         time_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
-        savedir = f"demo/outputs"
-        animation_path = f"{savedir}/{time_str}.mp4"
+        savedir = output_path
+        animation_path = os.path.join(savedir, f"{time_str}.mp4")
 
         os.makedirs(savedir, exist_ok=True)
         save_videos_grid(samples_per_video, animation_path)
 
         return animation_path
 
-    def load_pipeline(self, model_path=None):
+    def load_pipeline(self, half_precision=False, model_path=None):
         if self.pipeline is not None:
             del self.pipeline
+
+        if self.appearance_encoder is not None:
+            del self.appearance_encoder
+
+        if self.controlnet is not None:
+            del self.controlnet
+        torch.cuda.empty_cache()
+
+        self.appearance_encoder = AppearanceEncoderModel.from_pretrained(pretrained_encoder_path,
+                                                                         subfolder="appearance_encoder").cuda()
+
+        self.controlnet = ControlNetModel.from_pretrained(pretrained_controlnet_path)
+        if half_precision:
+            self.controlnet.to(torch.float16)
+            self.appearance_encoder.to(torch.float16)
+        xformerify(self.controlnet)
+        xformerify(self.appearance_encoder)
 
         config = self.config
         inference_config = self.inference_config
         vae = None
         print(f"Loading pipeline from {model_path}")
         if not model_path:
-            model_path = config.pretrained_model_path
-            unet_path = config.pretrained_unet_path if config.pretrained_unet_path else model_path
+            model_path = pretrained_model_path
+            unet_path = model_path
         else:
             unet_path = model_path
         if "safetensors" in model_path or "ckpt" in model_path:
             temp_pipeline = StableDiffusionPipeline.from_single_file(model_path)
             tokenizer = temp_pipeline.tokenizer
             text_encoder = temp_pipeline.text_encoder
-            unet = temp_pipeline.unet
+            unet_2d = temp_pipeline.unet
+            unet = UNet3DConditionModel.from_2d_unet(unet_2d, inference_config.unet_additional_kwargs)
             try:
                 vae = temp_pipeline.vae
             except:
@@ -163,26 +183,35 @@ class MagicAnimate:
         else:
             tokenizer = CLIPTokenizer.from_pretrained(model_path, subfolder="tokenizer")
             text_encoder = CLIPTextModel.from_pretrained(model_path, subfolder="text_encoder")
-            if config.pretrained_unet_path:
-                unet = UNet3DConditionModel.from_pretrained_2d(unet_path,
-                                                               unet_additional_kwargs=OmegaConf.to_container(
-                                                                   inference_config.unet_additional_kwargs))
-            else:
-                unet = UNet3DConditionModel.from_pretrained_2d(model_path, subfolder="unet",
-                                                               unet_additional_kwargs=OmegaConf.to_container(
-                                                                   inference_config.unet_additional_kwargs))
+            unet = UNet3DConditionModel.from_pretrained_2d(model_path, subfolder="unet",
+                                                           unet_additional_kwargs=OmegaConf.to_container(
+                                                               inference_config.unet_additional_kwargs))
 
         if vae is None:
-            if config.pretrained_vae_path is not None:
+            if os.path.exists(pretrained_vae_path):
                 vae = AutoencoderKL.from_pretrained(config.pretrained_vae_path)
             else:
-                vae = AutoencoderKL.from_pretrained(config.pretrained_model_path, subfolder="vae")
+                vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
 
         self.reference_control_writer = ReferenceAttentionControl(self.appearance_encoder,
                                                                   do_classifier_free_guidance=True, mode='write',
                                                                   fusion_blocks=config.fusion_blocks)
         self.reference_control_reader = ReferenceAttentionControl(unet, do_classifier_free_guidance=True, mode='read',
                                                                   fusion_blocks=config.fusion_blocks)
+
+        if half_precision:
+            vae.to(torch.float16)
+            unet.to(torch.float16)
+            text_encoder.to(torch.float16)
+
+        xformerify(unet)
+        xformerify(vae)
+
+        self.pipeline = AnimationPipeline(
+            vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, unet=unet, controlnet=self.controlnet,
+            scheduler=DDIMScheduler(**OmegaConf.to_container(inference_config.noise_scheduler_kwargs)),
+            # NOTE: UniPCMultistepScheduler
+        ).to("cuda")
 
         motion_module_state_dict = torch.load(motion_module, map_location="cpu")
         if "global_step" in motion_module_state_dict: self.func_args.update(
@@ -211,16 +240,10 @@ class MagicAnimate:
                         _tmp_[_key] = motion_module_state_dict[key]
                     else:
                         _tmp_[key] = motion_module_state_dict[key]
+            missing, unexpected = unet.load_state_dict(_tmp_, strict=False)
+            assert len(unexpected) == 0
             del _tmp_
         del motion_module_state_dict
 
-        vae.to(torch.float16)
-        unet.to(torch.float16)
-        text_encoder.to(torch.float16)
-        unet.enable_xformers_memory_efficient_attention()
-
-        self.pipeline = AnimationPipeline(
-            vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, unet=unet, controlnet=self.controlnet,
-            scheduler=DDIMScheduler(**OmegaConf.to_container(inference_config.noise_scheduler_kwargs)),
-            # NOTE: UniPCMultistepScheduler
-        ).to("cuda")
+        self.pipeline.to("cuda")
+        self.L = config.L
