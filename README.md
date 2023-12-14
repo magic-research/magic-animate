@@ -107,6 +107,44 @@ python3 -m demo.gradio_animate_dist
 ```
 Then open gradio demo in local browser.
 
+## 🐳 Docker
+
+Running code in environments other than Linux can be challenging. Docker is a great solution for this. Install [Docker](https://docs.docker.com/engine/install/) and [Nvidia-container-runtime](https://nvidia.github.io/nvidia-container-runtime/). Place pretrained_models as expected. Docker will ignore models in the building stage.
+
+### Building and Running the Docker Image
+
+Run the following command to build and start the Docker image/container::
+
+```bash
+docker-compose up -d
+```
+
+Open a terminal and create an SSH tunnel to the Docker container:
+
+```bash
+ssh -L 7860:127.0.0.1:7860 -p 2222 models@localhost
+```
+
+Password: `root`
+
+Execute `./entrypoint.sh` to run the Gradio demo. The Gradio demo will be available at [http://localhost:7860](http://localhost:7860).
+
+The SSH tunnel needs to remain active at all times for the Gradio demo to work. Additionally, you need to be inside the Docker container to execute commands.
+
+Before running commands like:
+
+```bash
+python3 -m magicanimate.pipelines.animation --config configs/prompts/animation.yaml
+```
+
+or any other command that is not a script that automatically activates the environment, make sure to have the conda environment active:
+
+```bash
+conda activate manimate
+```
+
+A volume is mounted at the root directory and all changes, files, etc. will be saved in the root directory and accessible from the Docker container.
+
 ## 🙏 Acknowledgements
 We would like to thank [AK(@_akhaliq)](https://twitter.com/_akhaliq?lang=en) and huggingface team for the help of setting up oneline gradio demo.
 
