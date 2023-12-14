@@ -1,6 +1,7 @@
 import os
 
 script_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), ".."))
+output_path = os.path.join(script_path, "outputs")
 models_path = os.path.join(script_path, "pretrained_models")
 magic_models_path = os.path.join(models_path, "MagicAnimate")
 

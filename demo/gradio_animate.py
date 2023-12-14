@@ -36,8 +36,9 @@ def list_checkpoints():
 
 
 # source_image, motion_sequence, random_seed, step, guidance_scale, size=512, checkpoint=None
-def animate(reference_image, motion_sequence_state, seed, steps, guidance_scale, size, checkpoint=None):
-    return animator(reference_image, motion_sequence_state, seed, steps, guidance_scale, size, checkpoint)
+def animate(prompt, reference_image, motion_sequence_state, seed, steps, guidance_scale, size, half_precision, checkpoint=None):
+    return animator(prompt, reference_image, motion_sequence_state, seed, steps, guidance_scale, size, half_precision,
+                    checkpoint)
 
 
 with gr.Blocks() as demo:
@@ -60,6 +61,9 @@ with gr.Blocks() as demo:
     animation = gr.Video(format="mp4", label="Animation Results", autoplay=True)
     with gr.Row():
         checkpoint = gr.Dropdown(label="Checkpoint", choices=list_checkpoints())
+        half_precision = gr.Checkbox(label="Half precision", default=False)
+    with gr.Row():
+        prompt = gr.Textbox(label="Prompt", placeholder="Type an optional prompt here", lines=2)
     with gr.Row():
         reference_image = gr.Image(label="Reference Image")
         motion_sequence = gr.Video(format="mp4", label="Motion Sequence")
@@ -95,25 +99,25 @@ with gr.Blocks() as demo:
         reference_image
     )
     # when the `submit` button is clicked
-    #source_image, motion_sequence, random_seed, step, guidance_scale, size = 512, checkpoint = None
+    # source_image, motion_sequence, random_seed, step, guidance_scale, size = 512, checkpoint = None
     submit.click(
         animate,
-        [reference_image, motion_sequence, random_seed, sampling_steps, guidance_scale, size, checkpoint],
+        [prompt, reference_image, motion_sequence, random_seed, sampling_steps, guidance_scale, size, half_precision,
+         checkpoint],
         animation
     )
 
-    # source_images_path = os.path.join(script_path, "inputs", "applications", "source_image")
-    # motion_sequences_path = os.path.join(script_path, "inputs", "applications", "driving", "densepose")
-    #Examples
+    # Examples
     gr.Markdown("## Examples")
+    
     gr.Examples(
         examples=[
-            [f"{source_images_path}/monalisa.png", f"{motion_sequences_path}/running.mp4"],
-            [f"{source_images_path}/demo4.png", f"{motion_sequences_path}/demo4.mp4"],
-            [f"{source_images_path}/dalle2.jpeg", f"{motion_sequences_path}/running2.mp4"],
-            [f"{source_images_path}/dalle8.jpeg", f"{motion_sequences_path}/dancing2.mp4"],
-            [f"{source_images_path}/multi1_source.png",
-             f"{motion_sequences_path}/multi_dancing.mp4"],
+            [os.path.join(source_images_path, "monalisa.png"), os.path.join(motion_sequences_path, "running.mp4")],
+            [os.path.join(source_images_path, "demo4.png"), os.path.join(motion_sequences_path, "demo4.mp4")],
+            [os.path.join(source_images_path, "dalle2.jpeg"), os.path.join(motion_sequences_path, "running2.mp4")],
+            [os.path.join(source_images_path, "dalle8.jpeg"), os.path.join(motion_sequences_path, "dancing2.mp4")],
+            [os.path.join(source_images_path, "multi1_source.png"),
+             os.path.join(motion_sequences_path, "multi_dancing.mp4")],
         ],
         inputs=[reference_image, motion_sequence],
         outputs=animation,

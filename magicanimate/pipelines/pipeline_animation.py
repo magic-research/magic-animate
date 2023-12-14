@@ -621,7 +621,7 @@ class AnimationPipeline(DiffusionPipeline):
         if init_latents is not None:
             latents = rearrange(init_latents, "(b f) c h w -> b c f h w", f=video_length)
         else:
-            num_channels_latents = self.unet.in_channels
+            num_channels_latents = self.unet.config.in_channels
             latents = self.prepare_latents(
                 batch_size * num_videos_per_prompt,
                 num_channels_latents,

@@ -66,9 +66,9 @@ class MagicAnimate:
 
         print("Initialization Done!")
 
-    def __call__(self, source_image, motion_sequence, random_seed, step, guidance_scale, size=512, half_precision=False, checkpoint=None):
+    def __call__(self, prompt, source_image, motion_sequence, random_seed, step, guidance_scale, size=512, half_precision=False, checkpoint=None):
         self.load_pipeline(half_precision, checkpoint)
-        prompt = n_prompt = ""
+        n_prompt = ""
         random_seed = int(random_seed)
         step = int(step)
         guidance_scale = float(guidance_scale)
