@@ -103,6 +103,10 @@ Run inference with multiple GPUs:
 bash scripts/animate_dist.sh
 ```
 
+#### Motion Paths:
+You can get a compatible motion path from [prose.rip](pose.rip) for free.
+
+
 ## 🎨 Gradio Demo 
 
 #### Online Gradio Demo:
