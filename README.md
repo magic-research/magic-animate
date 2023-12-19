@@ -44,11 +44,13 @@
 * **[2023.11.23]** Release MagicAnimate paper and project page.
 
 ## 🏃‍♂️ Getting Started
-Please download the pretrained base models for [StableDiffusion V1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5) and [MSE-finetuned VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse).
+Download the pretrained base models for [StableDiffusion V1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5) and [MSE-finetuned VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse).
 
 Download our MagicAnimate [checkpoints](https://huggingface.co/zcxu-eric/MagicAnimate).
 
-**Place them as follows:**
+Please follow the huggingface download instructions to download the above models and checkpoints, `git lfs` is recommended.
+
+Place the based models and checkpoints as follows:
 ```bash
 magic-animate
 |----pretrained_models
@@ -62,9 +64,19 @@ magic-animate
     |----temporal_attention
       |----temporal_attention.ckpt
   |----sd-vae-ft-mse
-    |----...
+    |----config.json
+    |----diffusion_pytorch_model.safetensors
   |----stable-diffusion-v1-5
-    |----...
+    |----scheduler
+       |----scheduler_config.json
+    |----text_encoder
+       |----config.json
+       |----pytorch_model.bin
+    |----tokenizer (all)
+    |----unet
+       |----diffusion_pytorch_model.bin
+       |----config.json
+    |----v1-5-pruned-emaonly.safetensors
 |----...
 ```
 
