@@ -33,6 +33,7 @@ from PIL import Image
 import numpy as np
 import torch
 import torch.distributed as dist
+from diffusers import DiffusionPipeline
 from tqdm import tqdm
 from diffusers.utils import is_accelerate_available
 from packaging import version
@@ -40,7 +41,6 @@ from transformers import CLIPTextModel, CLIPTokenizer
 
 from diffusers.configuration_utils import FrozenDict
 from diffusers.models import AutoencoderKL
-from diffusers.pipeline_utils import DiffusionPipeline
 from diffusers.schedulers import (
     DDIMScheduler,
     DPMSolverMultistepScheduler,
@@ -621,7 +621,7 @@ class AnimationPipeline(DiffusionPipeline):
         if init_latents is not None:
             latents = rearrange(init_latents, "(b f) c h w -> b c f h w", f=video_length)
         else:
-            num_channels_latents = self.unet.in_channels
+            num_channels_latents = self.unet.config.in_channels
             latents = self.prepare_latents(
                 batch_size * num_videos_per_prompt,
                 num_channels_latents,

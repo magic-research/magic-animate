@@ -506,3 +506,35 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
         print(f"### Temporal Module Parameters: {sum(params) / 1e6} M")
         
         return model
+
+    @classmethod
+    def from_2d_unet(cls, unet2d_model, unet_additional_kwargs=None):
+        # Extract configuration from 2D UNet model
+        config_2d = unet2d_model.config
+        config_3d = config_2d.copy()  # Convert to a dictionary if necessary
+
+        # Update configuration for 3D UNet specifics
+        config_3d["_class_name"] = cls.__name__
+        config_3d["down_block_types"] = [
+            "CrossAttnDownBlock3D",
+            "CrossAttnDownBlock3D",
+            "CrossAttnDownBlock3D",
+            "DownBlock3D"
+        ]
+        config_3d["up_block_types"] = [
+            "UpBlock3D",
+            "CrossAttnUpBlock3D",
+            "CrossAttnUpBlock3D",
+            "CrossAttnUpBlock3D"
+        ]
+
+        # Initialize a new 3D UNet model with the updated configuration
+        model_3d = cls.from_config(config_3d, **unet_additional_kwargs)
+
+        # Load state dict from 2D model to 3D model
+        # Note: This might require additional handling if the architectures differ significantly
+        state_dict_2d = unet2d_model.state_dict()
+        model_3d.load_state_dict(state_dict_2d, strict=False)
+
+        return model_3d
+
