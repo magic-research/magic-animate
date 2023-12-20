@@ -1,10 +1,10 @@
-pretrained_model_path: "pretrained_models/stable-diffusion-v1-5"
-pretrained_vae_path: "pretrained_models/sd-vae-ft-mse"
-pretrained_controlnet_path: "pretrained_models/MagicAnimate/densepose_controlnet"
-pretrained_appearance_encoder_path: "pretrained_models/MagicAnimate/appearance_encoder"
+pretrained_model_path: "magicanimate/pretrained_models/stable-diffusion-v1-5"
+pretrained_vae_path: "magicanimate/pretrained_models/sd-vae-ft-mse"
+pretrained_controlnet_path: "magicanimate/pretrained_models/MagicAnimate/densepose_controlnet"
+pretrained_appearance_encoder_path: "magicanimate/pretrained_models/MagicAnimate/appearance_encoder"
 pretrained_unet_path: ""
 
-motion_module: "pretrained_models/MagicAnimate/temporal_attention/temporal_attention.ckpt"
+motion_module: "magicanimate/pretrained_models/MagicAnimate/temporal_attention/temporal_attention.ckpt"
 
 savename: null
 
