@@ -125,7 +125,7 @@ class MagicAnimate():
         
         print("Initialization Done!")
         
-    def __call__(self, source_image, motion_sequence, random_seed, step, guidance_scale, size=512):
+    def __call__(self, source_image, motion_sequence, random_seed, step, guidance_scale, size=512, savedir = f"demo/outputs"):
             prompt = n_prompt = ""
             random_seed = int(random_seed)
             step = int(step)
@@ -185,7 +185,6 @@ class MagicAnimate():
             samples_per_video = torch.cat(samples_per_video)
 
             time_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
-            savedir = f"demo/outputs"
             animation_path = f"{savedir}/{time_str}.mp4"
 
             os.makedirs(savedir, exist_ok=True)
