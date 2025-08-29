@@ -33,7 +33,7 @@ def animate(reference_image, motion_sequence, seed, steps, guidance_scale):
         guidance_scale,
         animation_path
     )
-    run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
+    run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
     return animation_path
 
 with gr.Blocks() as demo:
