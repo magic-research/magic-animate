@@ -31,6 +31,7 @@ def save_videos_grid(videos: torch.Tensor, path: str, rescale=False, n_rows=6, f
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
     imageio.mimsave(path, outputs, fps=fps)
+    print("Video saved at ", path)
 
 def save_images_grid(images: torch.Tensor, path: str):
     assert images.shape[2] == 1 # no time dimension
