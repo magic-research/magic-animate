@@ -120,7 +120,7 @@ python3 -m demo.gradio_animate_dist
 Then open gradio demo in local browser.
 
 ## 🙏 Acknowledgements
-We would like to thank [AK(@_akhaliq)](https://twitter.com/_akhaliq?lang=en) and huggingface team for the help of setting up oneline gradio demo.
+We would like to thank [AK(@_akhaliq)](https://twitter.com/_akhaliq?lang=en) and huggingface team for the help of setting up online gradio demo.
 
 ## 🎓 Citation
 If you find this codebase useful for your research, please use the following entry.
