@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  manimate:
+    build: .
+    volumes:
+      - ./:/home/models
+    ports:
+      - "7860:7860"
+      - "2222:22" #ssh -L 7860:127.0.0.1:7860 -p 2222 models@localhost
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
